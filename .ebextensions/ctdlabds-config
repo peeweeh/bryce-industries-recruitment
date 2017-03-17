@@ -1,0 +1,11 @@
+commands:
+  00download:
+    command: 'wget https://ebcdsm.ctdlab.com:4119/software/agent/amzn1/x86_64/ -O /tmp/agent.rpm --no-check-certificate --quiet'
+  01preserveiptables:
+    command: 'touch /etc/use_dsa_with_iptables'    
+  02install:
+    command: 'rpm --replacepkgs -ihv /tmp/agent.rpm'
+  03sleep:
+    command: 'sleep 70'
+  04activate:
+    command: '/opt/ds_agent/dsa_control -a dsm://ebcdsm.ctdlab.com:4120/ "policyid:21" --max-dsm-retries 0 >/tmp/dsa_control.log 2>&1'
