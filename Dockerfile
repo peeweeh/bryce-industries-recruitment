@@ -24,13 +24,17 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
-
+RUN touch /usr/local/etc/php/conf.d/uploads.ini
+RUN { \
+		echo 'file_uploads = On'; \
+		echo 'memory_limit = 64M'; \
+		echo 'upload_max_filesize = 64M'; \
+		echo 'post_max_size = 64M'; \
+		echo 'max_execution_time = 600'; \
+	} > /usr/local/etc/php/conf.d/uploads.ini
 RUN a2enmod rewrite expires
 
 VOLUME /var/www/html
-
-ENV WORDPRESS_VERSION 4.7.3
-ENV WORDPRESS_SHA1 35adcd8162eae00d5bc37f35344fdc06b22ffc98
 
 COPY . /var/www/html/
 
